@@ -10155,7 +10155,7 @@
         /* ============================================================
            VOICE AUDIO MODAL - Click-to-flip interview playback
            ============================================================ */
-        (function initVoiceAudioModal() {
+        function initVoiceAudioModal() {
             const modal = document.getElementById('voiceAudioModal');
             if (!modal) return;
 
@@ -10242,7 +10242,13 @@
             });
 
             bindVoiceCards();
-        })();
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initVoiceAudioModal);
+        } else {
+            initVoiceAudioModal();
+        }
 
     </script>
 
