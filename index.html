@@ -3904,6 +3904,84 @@
             padding: 8px 36px 32px;
         }
 
+        /* Interactive 3D product viewer (one per innovation card) */
+        .product-3d-viewer {
+            position: relative;
+            margin: 36px 0 4px;
+            aspect-ratio: 16 / 10;
+            width: 100%;
+            border-radius: var(--r-lg);
+            border: 1px solid var(--border);
+            background: linear-gradient(180deg, #ffffff 0%, #f4f5f7 100%);
+            overflow: hidden;
+            cursor: grab;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: none;
+        }
+
+        /* Skyr card: blue radial gradient echoing the packaging */
+        #innovation-1 .product-3d-viewer {
+            background:
+                radial-gradient(120% 90% at 50% -10%, #eaf1fb 0%, #bccfee 45%, #6c8ac8 80%, #3e5e9b 100%);
+            border-color: rgba(62, 94, 155, 0.25);
+        }
+
+        #innovation-1 .product-3d-hint {
+            background: rgba(255, 255, 255, 0.88);
+            color: #2c4380;
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Frozen card: coral/peach gradient */
+        #innovation-2 .product-3d-viewer {
+            background:
+                radial-gradient(120% 80% at 50% -10%, #fff5ec 0%, #ffe2cc 55%, #f3c8a8 100%);
+        }
+
+        .product-3d-viewer.is-dragging {
+            cursor: grabbing;
+        }
+
+        .product-3d-canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .product-3d-hint {
+            position: absolute;
+            bottom: 14px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.78);
+            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            color: var(--ink-2);
+            padding: 7px 14px;
+            border-radius: 999px;
+            font-family: var(--display);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            pointer-events: none;
+            opacity: 0.9;
+            transition: opacity 0.25s ease;
+        }
+
+        .product-3d-viewer.is-dragging .product-3d-hint {
+            opacity: 0;
+        }
+
+        @media (max-width: 768px) {
+            .product-3d-viewer {
+                aspect-ratio: 4 / 5;
+                margin-top: 28px;
+            }
+        }
+
         .innovation-body h4 {
             font-family: var(--display);
             font-weight: 800;
@@ -7935,6 +8013,11 @@
                                 </tbody>
                             </table>
                         </div>
+
+                        <figure class="product-3d-viewer" data-product="skyr">
+                            <canvas class="product-3d-canvas" aria-label="Interactive 3D model of Alpro Skyr +Protein 1kg"></canvas>
+                            <figcaption class="product-3d-hint">Drag to spin · auto-rotates when idle</figcaption>
+                        </figure>
                     </div>
                 </article>
 
@@ -8143,6 +8226,11 @@
                                 </tbody>
                             </table>
                         </div>
+
+                        <figure class="product-3d-viewer" data-product="frozen">
+                            <canvas class="product-3d-canvas" aria-label="Interactive 3D model of Alpro Frozen Yoghurt"></canvas>
+                            <figcaption class="product-3d-hint">Drag to spin · auto-rotates when idle</figcaption>
+                        </figure>
                     </div>
                 </article>
 
@@ -10980,6 +11068,252 @@
                 renderer.render(scene, camera);
             }
             tick();
+        })();
+    </script>
+
+    <!-- Interactive 3D product viewers — one per innovation card -->
+    <script type="module">
+        (async function initProductViewers() {
+            const nodes = document.querySelectorAll('.product-3d-viewer');
+            if (!nodes.length) return;
+
+            // WebGL probe
+            try {
+                const probe = document.createElement('canvas');
+                const gl = probe.getContext('webgl2') || probe.getContext('webgl');
+                if (!gl) return;
+            } catch (e) { return; }
+
+            let THREE, GLTFLoader, RoomEnvironment;
+            try {
+                THREE = await import('three');
+                ({ GLTFLoader } = await import('https://unpkg.com/three@0.160.0/examples/jsm/loaders/GLTFLoader.js'));
+                ({ RoomEnvironment } = await import('https://unpkg.com/three@0.160.0/examples/jsm/environments/RoomEnvironment.js'));
+            } catch (e) {
+                console.warn('[pv3d] three.js failed to load:', e);
+                return;
+            }
+
+            const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+            const IDLE_RESUME_MS = 2500;
+            const AUTO_SPEED = 0.0085;
+
+            // ── Shared texture overrides (browser caches; only decode cost) ──
+            const texLoader = new THREE.TextureLoader();
+            function loadTex(path) {
+                return new Promise((resolve) => {
+                    texLoader.load(
+                        encodeURI(path),
+                        (t) => {
+                            t.colorSpace = THREE.SRGBColorSpace;
+                            t.flipY = false;
+                            resolve(t);
+                        },
+                        undefined,
+                        () => resolve(null)
+                    );
+                });
+            }
+            const [skyrLabelTex, skyrLidTex, frozenLabelTex, frozenLidTex] = await Promise.all([
+                loadTex('models/skyr label.png'),
+                loadTex('models/skyr lid.png'),
+                loadTex('models/frozen label.png'),
+                loadTex('models/frozen lide.png'),
+            ]);
+
+            function applyArtwork(root, labelTex, lidTex) {
+                if (!root || (!labelTex && !lidTex)) return;
+                root.traverse((obj) => {
+                    if (!obj.isMesh || !obj.material) return;
+                    const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
+                    mats.forEach((mat) => {
+                        const img = mat.map && mat.map.image;
+                        const w = img && (img.width || img.naturalWidth) || 0;
+                        const h = img && (img.height || img.naturalHeight) || 0;
+                        if (!w || !h) return;
+                        const aspect = w / h;
+                        const next = aspect > 1.5 ? labelTex
+                                   : (aspect >= 0.85 && aspect <= 1.15 ? lidTex : null);
+                        if (!next) return;
+                        const prev = mat.map;
+                        next.wrapS = prev.wrapS; next.wrapT = prev.wrapT;
+                        next.offset.copy(prev.offset);
+                        next.repeat.copy(prev.repeat);
+                        mat.map = next;
+                        mat.needsUpdate = true;
+                    });
+                });
+            }
+
+            // PMREM env is per-renderer (tied to its GL context), so we
+            // generate one inside each viewer's setup rather than sharing.
+            const gltfLoader = new GLTFLoader();
+            const glbCache = new Map();
+            function loadGLB(path) {
+                if (glbCache.has(path)) return glbCache.get(path);
+                const p = new Promise((resolve, reject) => {
+                    gltfLoader.load(path, (gltf) => resolve(gltf), undefined, reject);
+                });
+                glbCache.set(path, p);
+                return p;
+            }
+
+            function setupViewer(node) {
+                const product = node.dataset.product;
+                const canvas = node.querySelector('.product-3d-canvas');
+                if (!canvas) return;
+
+                const renderer = new THREE.WebGLRenderer({
+                    canvas, alpha: true, antialias: true, powerPreference: 'high-performance',
+                });
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.8));
+                renderer.setClearColor(0x000000, 0);
+                renderer.outputColorSpace = THREE.SRGBColorSpace;
+                renderer.toneMapping = THREE.ACESFilmicToneMapping;
+                renderer.toneMappingExposure = 1.15;
+
+                const scene = new THREE.Scene();
+                const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 100);
+
+                const pmrem = new THREE.PMREMGenerator(renderer);
+                scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+                pmrem.dispose();
+
+                scene.add(new THREE.AmbientLight(0xffffff, 0.45));
+                scene.add(new THREE.HemisphereLight(0xffffff, 0xb8d8c0, 0.55));
+                const key = new THREE.DirectionalLight(0xffffff, 1.7);
+                key.position.set(4, 6, 5); scene.add(key);
+                const fill = new THREE.DirectionalLight(0xdcf2e1, 0.9);
+                fill.position.set(-5, 3, 2); scene.add(fill);
+                const rim = new THREE.DirectionalLight(0xffffff, 0.45);
+                rim.position.set(-2, -3, -4); scene.add(rim);
+
+                const modelGroup = new THREE.Group();
+                scene.add(modelGroup);
+
+                function resize() {
+                    const w = canvas.clientWidth | 0;
+                    const h = canvas.clientHeight | 0;
+                    if (!w || !h) return;
+                    renderer.setSize(w, h, false);
+                    camera.aspect = w / h;
+                    camera.updateProjectionMatrix();
+                }
+
+                // ── Orbit state ───────────────────────────────────────────
+                const state = {
+                    az: -0.35, pol: 0.18, dist: 4.4,
+                    spin: true,
+                    drag: false, lx: 0, ly: 0, vx: 0, vy: 0,
+                    timer: null,
+                };
+
+                function updateCamera() {
+                    const cp = Math.cos(state.pol);
+                    camera.position.set(
+                        state.dist * cp * Math.sin(state.az),
+                        state.dist * Math.sin(state.pol),
+                        state.dist * cp * Math.cos(state.az)
+                    );
+                    camera.lookAt(0, 0, 0);
+                }
+
+                function scheduleResume() {
+                    clearTimeout(state.timer);
+                    state.timer = setTimeout(() => { state.spin = true; }, IDLE_RESUME_MS);
+                }
+
+                // ── Pointer events (mouse + touch via Pointer Events) ─────
+                function onPointerDown(e) {
+                    if (e.button !== undefined && e.button !== 0) return;
+                    state.drag = true; state.spin = false;
+                    state.lx = e.clientX; state.ly = e.clientY;
+                    state.vx = 0; state.vy = 0;
+                    clearTimeout(state.timer);
+                    node.classList.add('is-dragging');
+                    canvas.setPointerCapture?.(e.pointerId);
+                }
+                function onPointerMove(e) {
+                    if (!state.drag) return;
+                    const dx = e.clientX - state.lx;
+                    const dy = e.clientY - state.ly;
+                    state.lx = e.clientX; state.ly = e.clientY;
+                    state.az -= dx * 0.006;
+                    state.pol = clamp(state.pol + dy * 0.005, -1.2, 1.2);
+                    state.vx = dx; state.vy = dy;
+                }
+                function onPointerUp(e) {
+                    if (!state.drag) return;
+                    state.drag = false;
+                    node.classList.remove('is-dragging');
+                    canvas.releasePointerCapture?.(e.pointerId);
+                    scheduleResume();
+                }
+                canvas.addEventListener('pointerdown', onPointerDown);
+                canvas.addEventListener('pointermove', onPointerMove);
+                canvas.addEventListener('pointerup', onPointerUp);
+                canvas.addEventListener('pointercancel', onPointerUp);
+                canvas.addEventListener('pointerleave', (e) => { if (state.drag) onPointerUp(e); });
+
+                // ── Load the right GLB ────────────────────────────────────
+                const glbPath = product === 'skyr'
+                    ? 'models/alpro_skyr_yoghurt_protein_natural_500ml_clean_fixed.glb'
+                    : 'models/alpro_frozen_yoghurt_500ml_clean_fixed.glb';
+                const labelTex = product === 'skyr' ? skyrLabelTex : frozenLabelTex;
+                const lidTex   = product === 'skyr' ? skyrLidTex   : frozenLidTex;
+
+                loadGLB(glbPath).then((gltf) => {
+                    // Clone so each viewer gets its own scene graph (materials shared via cache)
+                    const raw = gltf.scene.clone(true);
+                    raw.rotation.x = -Math.PI / 2;
+                    const inner = new THREE.Group();
+                    inner.add(raw);
+                    inner.updateMatrixWorld(true);
+
+                    const box = new THREE.Box3().setFromObject(inner);
+                    const centre = box.getCenter(new THREE.Vector3());
+                    const size = box.getSize(new THREE.Vector3());
+                    const maxDim = Math.max(size.x, size.y, size.z) || 1;
+
+                    raw.position.sub(centre);
+                    inner.scale.setScalar(1.8 / maxDim);
+                    inner.rotation.y = Math.PI / 2; // face label forward
+
+                    raw.traverse((obj) => { if (obj.isMesh) obj.frustumCulled = false; });
+                    applyArtwork(inner, labelTex, lidTex);
+                    modelGroup.add(inner);
+                }).catch((err) => console.warn('[pv3d] glb load failed', glbPath, err));
+
+                // ── Visibility-gated render loop ──────────────────────────
+                let visible = false;
+                const io = new IntersectionObserver((entries) => {
+                    entries.forEach((entry) => { visible = entry.isIntersecting; });
+                }, { rootMargin: '120px' });
+                io.observe(node);
+
+                const ro = new ResizeObserver(resize);
+                ro.observe(canvas);
+                resize();
+
+                function frame() {
+                    requestAnimationFrame(frame);
+                    if (!visible) return;
+
+                    if (state.spin) {
+                        state.az += AUTO_SPEED;
+                    } else if (!state.drag) {
+                        // Momentum decay after release
+                        state.vx *= 0.9; state.vy *= 0.9;
+                        state.az -= state.vx * 0.0035;
+                        state.pol = clamp(state.pol + state.vy * 0.0028, -1.2, 1.2);
+                    }
+                    updateCamera();
+                    renderer.render(scene, camera);
+                }
+                frame();
+            }
+
+            nodes.forEach(setupViewer);
         })();
     </script>
 </body>
