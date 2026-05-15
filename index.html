@@ -4062,6 +4062,87 @@
             margin-top: 32px;
         }
 
+        /* Revenue calculation accordion */
+        .calc-accordion {
+            margin-top: 14px;
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .calc-accordion[open] {
+            border-color: var(--border-strong);
+            box-shadow: var(--shadow);
+        }
+
+        .calc-accordion > summary {
+            list-style: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 18px 22px;
+            font-family: var(--display);
+            font-weight: 800;
+            font-size: 17px;
+            color: var(--ink);
+            letter-spacing: -0.01em;
+            line-height: 1.3;
+            user-select: none;
+            background: #ffffff;
+            transition: background-color 0.15s ease;
+        }
+
+        .calc-accordion > summary::-webkit-details-marker { display: none; }
+        .calc-accordion > summary::marker { content: ""; }
+
+        .calc-accordion > summary:hover {
+            background: rgba(9, 74, 40, 0.025);
+        }
+
+        .calc-accordion > summary::after {
+            content: "";
+            margin-left: auto;
+            flex-shrink: 0;
+            width: 9px;
+            height: 9px;
+            border-right: 2px solid var(--ink-3);
+            border-bottom: 2px solid var(--ink-3);
+            transform: rotate(45deg);
+            transition: transform 0.2s ease;
+        }
+
+        .calc-accordion[open] > summary::after {
+            transform: rotate(-135deg);
+        }
+
+        .calc-accordion-body {
+            padding: 4px 22px 20px;
+            border-top: 1px solid var(--border);
+            background: #ffffff;
+            font-size: 14.5px;
+            line-height: 1.65;
+            color: var(--ink-2);
+        }
+
+        .calc-accordion-body p {
+            margin: 12px 0 0 0;
+        }
+
+        .calc-accordion-body .calc-source {
+            margin-top: 14px;
+            font-size: 0.9rem;
+            color: var(--ink-3);
+        }
+
+        .calc-accordion-body .calc-list {
+            margin: 12px 0 0 0;
+            padding-left: 20px;
+            line-height: 1.7;
+        }
+
         .evidence-block h4 {
             font-family: var(--display);
             font-weight: 800;
@@ -8253,37 +8334,43 @@
                     Here is exactly how we got there.
                 </p>
 
-                <div class="evidence-block" style="margin-top: 24px;">
-                    <h4>The starting point: Alpro's current Spanish plant-based yoghurt business</h4>
-                    <p style="margin: 0 0 12px 0; font-size: 0.9rem; color: var(--ink-3);">Source: Kantar Worldpanel FY 2025.</p>
-                    <ul style="margin: 0; padding-left: 20px; line-height: 1.7;">
-                        <li>Total value: <strong>€82.4M</strong> (growing 34.7% year-on-year)</li>
-                        <li>Volume sold: <strong>14.7 thousand tonnes</strong></li>
-                        <li>Average price: <strong>€5.60 per kilo</strong></li>
-                        <li>Households buying: <strong>3.19 million</strong> (penetration of 16.5%)</li>
-                        <li>Purchase frequency: <strong>6.5 times per year</strong> per buyer</li>
-                        <li>Average basket: <strong>4.6 kg per buyer per year</strong>, worth €25.80</li>
-                        <li>Spend per purchase trip: <strong>€3.95</strong></li>
-                    </ul>
-                </div>
+                <details class="calc-accordion">
+                    <summary>The starting point: Alpro's current Spanish plant-based yoghurt business</summary>
+                    <div class="calc-accordion-body">
+                        <p class="calc-source">Source: Kantar Worldpanel FY 2025.</p>
+                        <ul class="calc-list">
+                            <li>Total value: <strong>€82.4M</strong> (growing 34.7% year-on-year)</li>
+                            <li>Volume sold: <strong>14.7 thousand tonnes</strong></li>
+                            <li>Average price: <strong>€5.60 per kilo</strong></li>
+                            <li>Households buying: <strong>3.19 million</strong> (penetration of 16.5%)</li>
+                            <li>Purchase frequency: <strong>6.5 times per year</strong> per buyer</li>
+                            <li>Average basket: <strong>4.6 kg per buyer per year</strong>, worth €25.80</li>
+                            <li>Spend per purchase trip: <strong>€3.95</strong></li>
+                        </ul>
+                    </div>
+                </details>
 
-                <div class="evidence-block" style="margin-top: 24px;">
-                    <h4>Alpro Skyr +Protein 1kg: revenue calculation</h4>
-                    <p style="margin: 12px 0 6px 0;"><strong>Step 1. Size the addressable segment.</strong> The Spanish plant-based yoghurt category is €127M total. The Skyr segment within it is about 9% of value, so roughly €11.4M today. This is the segment we're attacking.</p>
-                    <p style="margin: 12px 0 6px 0;"><strong>Step 2. Cannibalisation from existing Skyr buyers.</strong> Alpro's existing 400g Skyr+Protein buyers will trade up to the 1kg. We assume 25 to 40% of them switch. At Alpro's current Skyr value of around €8.4M (74.1% share of the €11.4M segment), that's €2.1M to €3.4M of cannibalised revenue. But because the 1kg buyer purchases two and a half times the volume per trip, the net incremental from this switch is positive: approximately <strong>€4M to €6M</strong> from trading up.</p>
-                    <p style="margin: 12px 0 6px 0;"><strong>Step 3. Incremental household trial.</strong> The bigger opportunity is convincing households who buy Greek dairy yoghurt (Pastoret, Hacendado, Danone Oikos) to add the Alpro 1kg to their basket. Spanish households buying Greek dairy total roughly 8 million (rough estimate based on dairy yoghurt penetration of 98.9% multiplied by an estimated Greek-yoghurt share of about 25%). Pulling 1.5 to 2.5% of those gives us 120,000 to 200,000 incremental households. At Alpro's average annual spend per buyer (€25.80), that adds <strong>€3.1M to €5.2M</strong>.</p>
-                    <p style="margin: 12px 0 6px 0;"><strong>Step 4. Out-of-home and food service.</strong> Gym chains, hotels, food service buying the 1kg as a kitchen ingredient. We estimate <strong>€2M to €4M</strong>, scaling to €5M+ by year three as partnerships mature.</p>
-                    <p style="margin: 12px 0 6px 0;"><strong>Step 5. Add it up.</strong> €4 to 6M + €3.1 to 5.2M + €2 to 4M = <strong>€11M (conservative) to €18M (optimistic) in year one</strong>.</p>
-                </div>
+                <details class="calc-accordion">
+                    <summary>Alpro Skyr +Protein 1kg: revenue calculation</summary>
+                    <div class="calc-accordion-body">
+                        <p><strong>Step 1. Size the addressable segment.</strong> The Spanish plant-based yoghurt category is €127M total. The Skyr segment within it is about 9% of value, so roughly €11.4M today. This is the segment we're attacking.</p>
+                        <p><strong>Step 2. Cannibalisation from existing Skyr buyers.</strong> Alpro's existing 400g Skyr+Protein buyers will trade up to the 1kg. We assume 25 to 40% of them switch. At Alpro's current Skyr value of around €8.4M (74.1% share of the €11.4M segment), that's €2.1M to €3.4M of cannibalised revenue. But because the 1kg buyer purchases two and a half times the volume per trip, the net incremental from this switch is positive: approximately <strong>€4M to €6M</strong> from trading up.</p>
+                        <p><strong>Step 3. Incremental household trial.</strong> The bigger opportunity is convincing households who buy Greek dairy yoghurt (Pastoret, Hacendado, Danone Oikos) to add the Alpro 1kg to their basket. Spanish households buying Greek dairy total roughly 8 million (rough estimate based on dairy yoghurt penetration of 98.9% multiplied by an estimated Greek-yoghurt share of about 25%). Pulling 1.5 to 2.5% of those gives us 120,000 to 200,000 incremental households. At Alpro's average annual spend per buyer (€25.80), that adds <strong>€3.1M to €5.2M</strong>.</p>
+                        <p><strong>Step 4. Out-of-home and food service.</strong> Gym chains, hotels, food service buying the 1kg as a kitchen ingredient. We estimate <strong>€2M to €4M</strong>, scaling to €5M+ by year three as partnerships mature.</p>
+                        <p><strong>Step 5. Add it up.</strong> €4 to 6M + €3.1 to 5.2M + €2 to 4M = <strong>€11M (conservative) to €18M (optimistic) in year one</strong>.</p>
+                    </div>
+                </details>
 
-                <div class="evidence-block" style="margin-top: 24px;">
-                    <h4>Alpro Frozen Yoghurt: revenue calculation</h4>
-                    <p style="margin: 12px 0 6px 0;"><strong>Step 1. Size the addressable segment.</strong> The Spanish plant-based ice cream segment is roughly €82M (Sell-out Dashboard Plant-Based Europe, within the €526M plant-based meat-cheese-ice-cream cluster in Europe). This is where we're competing.</p>
-                    <p style="margin: 12px 0 6px 0;"><strong>Step 2. Realistic share capture.</strong> Alpro has 74.1% value share in plant-based yoghurt and around 60% in plant-based beverages. In a new aisle (frozen) where Alpro is starting from zero, a realistic year-one share target is 8 to 12%. That's <strong>€6.6M to €9.8M</strong>.</p>
-                    <p style="margin: 12px 0 6px 0;"><strong>Step 3. Out-of-home addition.</strong> Cinemas, food halls, university campuses, summer events serving in coconut shells. We estimate this adds <strong>€2M to €4M</strong> in year one, scaling to €5 to 6M by year three as the brand activations grow.</p>
-                    <p style="margin: 12px 0 6px 0;"><strong>Step 4. Near-zero cannibalisation.</strong> The frozen aisle is a new shelf for Alpro. No existing Alpro product directly competes. So 100% of these sales are new revenue, not redistributed.</p>
-                    <p style="margin: 12px 0 6px 0;"><strong>Step 5. Add it up.</strong> €6.6 to 9.8M + €2 to 4M = <strong>€8M (conservative) to €14M (optimistic) in year one</strong>. Scaling to <strong>€15 to 22M by year three</strong> as the seasonal limited editions and out-of-home partnerships compound.</p>
-                </div>
+                <details class="calc-accordion">
+                    <summary>Alpro Frozen Yoghurt: revenue calculation</summary>
+                    <div class="calc-accordion-body">
+                        <p><strong>Step 1. Size the addressable segment.</strong> The Spanish plant-based ice cream segment is roughly €82M (Sell-out Dashboard Plant-Based Europe, within the €526M plant-based meat-cheese-ice-cream cluster in Europe). This is where we're competing.</p>
+                        <p><strong>Step 2. Realistic share capture.</strong> Alpro has 74.1% value share in plant-based yoghurt and around 60% in plant-based beverages. In a new aisle (frozen) where Alpro is starting from zero, a realistic year-one share target is 8 to 12%. That's <strong>€6.6M to €9.8M</strong>.</p>
+                        <p><strong>Step 3. Out-of-home addition.</strong> Cinemas, food halls, university campuses, summer events serving in coconut shells. We estimate this adds <strong>€2M to €4M</strong> in year one, scaling to €5 to 6M by year three as the brand activations grow.</p>
+                        <p><strong>Step 4. Near-zero cannibalisation.</strong> The frozen aisle is a new shelf for Alpro. No existing Alpro product directly competes. So 100% of these sales are new revenue, not redistributed.</p>
+                        <p><strong>Step 5. Add it up.</strong> €6.6 to 9.8M + €2 to 4M = <strong>€8M (conservative) to €14M (optimistic) in year one</strong>. Scaling to <strong>€15 to 22M by year three</strong> as the seasonal limited editions and out-of-home partnerships compound.</p>
+                    </div>
+                </details>
 
                 <aside class="counterpoint" style="margin-top: 24px;">
                     <div class="counterpoint-label">A note on confidence</div>
