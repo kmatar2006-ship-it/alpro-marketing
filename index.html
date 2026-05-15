@@ -881,19 +881,69 @@
             color: var(--white);
         }
 
-        /* Pull-quote, large typographic statement, no side stripe */
+        /* Pull-quote, editorial positioning statement on dark forest */
         .hybrid-quote {
-            font-family: var(--display);
-            font-size: clamp(20px, 2.8vw, 30px);
-            font-weight: 800;
-            line-height: 1.35;
-            color: var(--lime);
+            font-family: var(--body);
+            font-size: clamp(18px, 2.1vw, 24px);
+            font-weight: 500;
+            line-height: 1.55;
+            color: rgba(255, 255, 255, 0.94);
             max-width: 900px;
             margin: 32px 0 48px;
-            letter-spacing: -0.01em;
-            padding: 28px 0;
-            border-top: 1px solid rgba(200, 240, 0, 0.2);
-            border-bottom: 1px solid rgba(200, 240, 0, 0.2);
+            letter-spacing: -0.005em;
+            padding: 4px 0 4px 24px;
+            border-left: 3px solid var(--lime);
+        }
+
+        /* Light-context overrides for editorial blocks on dark forest */
+        .hybrid .block-lede {
+            color: rgba(255, 255, 255, 0.68);
+        }
+
+        .hybrid .spec-table {
+            border-color: rgba(255, 255, 255, 0.14);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .hybrid .spec-table thead th {
+            background: rgba(255, 255, 255, 0.09);
+            color: var(--white);
+            border-bottom-color: rgba(255, 255, 255, 0.18);
+        }
+
+        .hybrid .spec-table tbody tr {
+            border-bottom-color: rgba(255, 255, 255, 0.08);
+        }
+
+        .hybrid .spec-table tbody td {
+            color: rgba(255, 255, 255, 0.82);
+        }
+
+        .hybrid .spec-table tbody td:first-child {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--white);
+        }
+
+        .hybrid .spec-table tbody td:nth-child(2),
+        .hybrid .spec-table tbody td:last-child {
+            color: rgba(255, 255, 255, 0.82);
+        }
+
+        .hybrid .spec-table tbody tr:hover td {
+            background: rgba(255, 255, 255, 0.07);
+            color: var(--white);
+        }
+
+        .hybrid .spec-table tbody tr:hover td:first-child {
+            background: rgba(200, 240, 0, 0.12);
+        }
+
+        .hybrid-closing {
+            margin-top: 24px;
+            font-size: 0.95rem;
+            line-height: 1.65;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 820px;
         }
 
         .hybrid-grid {
@@ -1035,62 +1085,9 @@
             margin-top: 32px;
         }
 
-        .pestel-card {
-            background: var(--white);
-            border: 1px solid var(--border);
-            border-radius: var(--r);
-            padding: 24px;
-            box-shadow: var(--shadow);
-            transition: box-shadow 0.25s ease, transform 0.25s ease;
-        }
-
         .pestel-card:hover {
             box-shadow: var(--shadow-hover);
             transform: translateY(-3px);
-        }
-
-        .pestel-letter {
-            font-family: var(--display);
-            font-weight: 900;
-            font-size: 38px;
-            line-height: 1;
-            letter-spacing: -0.04em;
-            color: var(--leaf);
-            margin-bottom: 4px;
-        }
-
-        .pestel-name {
-            font-family: var(--display);
-            font-size: 11px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: var(--ink-4);
-            margin-bottom: 14px;
-        }
-
-        .pestel-points {
-            list-style: none;
-            display: grid;
-            gap: 8px;
-        }
-
-        .pestel-points li {
-            font-size: 13.5px;
-            color: var(--ink-2);
-            line-height: 1.5;
-            padding-left: 16px;
-            position: relative;
-        }
-
-        .pestel-points li::before {
-            content: '·';
-            position: absolute;
-            left: 4px;
-            color: var(--leaf);
-            font-weight: 900;
-            font-size: 16px;
-            line-height: 1.2;
         }
 
         /* ─── TABLES ─────────────────────────────────── */
@@ -1648,59 +1645,6 @@
             font-weight: 600;
         }
 
-        /* ─── ARCHETYPE CARDS ────────────────────────── */
-        .archetype-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 14px;
-            margin-top: 24px;
-        }
-
-        .archetype-card {
-            background: var(--white);
-            border: 1px solid var(--border);
-            border-radius: var(--r);
-            padding: 22px;
-            cursor: pointer;
-            transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
-            box-shadow: var(--shadow);
-        }
-
-        .archetype-card:hover {
-            box-shadow: var(--shadow-hover);
-            transform: translateY(-3px);
-            border-color: var(--mint);
-        }
-
-        .archetype-icon {
-            font-size: 28px;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        .archetype-name {
-            font-family: var(--display);
-            font-weight: 700;
-            font-size: 16px;
-            color: var(--ink);
-            margin-bottom: 6px;
-        }
-
-        .archetype-pct {
-            font-family: var(--display);
-            font-weight: 900;
-            font-size: 26px;
-            letter-spacing: -0.03em;
-            color: var(--leaf);
-            margin-bottom: 8px;
-        }
-
-        .archetype-desc {
-            font-size: 13px;
-            color: var(--ink-3);
-            line-height: 1.5;
-        }
-
         /* ─── RECOMMENDATIONS ────────────────────────── */
         .rec-list {
             display: grid;
@@ -2017,10 +1961,6 @@
                 }
             }
 
-            .archetype-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
             .pos-grid {
                 grid-template-columns: 1fr;
             }
@@ -2082,10 +2022,6 @@
         @media (min-width: 768px) and (max-width: 1023px) {
             .hero-stats {
                 grid-template-columns: repeat(2, 1fr);
-            }
-
-            .archetype-grid {
-                grid-template-columns: repeat(3, 1fr);
             }
         }
 
@@ -3065,6 +3001,39 @@
             font-style: italic;
         }
 
+        /* Chain variants: tinted accents for category */
+        .meansend-chain.is-blue {
+            border-color: var(--blue);
+        }
+
+        .meansend-chain.is-blue .meansend-chain-head,
+        .meansend-chain.is-blue .meansend-chain-tag,
+        .meansend-chain.is-blue .meansend-step-label,
+        .meansend-chain.is-blue .meansend-arrow {
+            color: var(--blue);
+        }
+
+        .meansend-chain.is-blue .meansend-step {
+            border-color: var(--blue);
+        }
+
+        .meansend-chain.barrier {
+            border-color: var(--coral-mid);
+            background: var(--coral-light);
+        }
+
+        .meansend-chain.barrier .meansend-chain-head,
+        .meansend-chain.barrier .meansend-chain-tag,
+        .meansend-chain.barrier .meansend-step-label,
+        .meansend-chain.barrier .meansend-arrow {
+            color: var(--coral);
+        }
+
+        .meansend-chain.barrier .meansend-step {
+            background: var(--white);
+            border-color: var(--coral-mid);
+        }
+
         .archetypes-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -3080,6 +3049,7 @@
             display: flex;
             flex-direction: column;
             gap: 14px;
+            cursor: pointer;
             box-shadow: var(--shadow);
             transition: box-shadow 0.2s ease, transform 0.2s ease;
         }
@@ -3635,9 +3605,8 @@
             background: var(--lime-bg);
         }
 
-        /* Fact + archetype card: perspective tilt container */
-        .facts-grid,
-        .archetype-grid {
+        /* Fact card: perspective tilt container */
+        .facts-grid {
             perspective: 1400px;
         }
 
@@ -3935,6 +3904,22 @@
             padding: 8px 36px 32px;
         }
 
+        .innovation-body h4 {
+            font-family: var(--display);
+            font-weight: 800;
+            font-size: 18px;
+            color: var(--ink);
+            margin: 8px 0 12px;
+            letter-spacing: -0.01em;
+        }
+
+        .innovation-body > p {
+            font-size: 14.5px;
+            line-height: 1.65;
+            color: var(--ink-3);
+            margin: 0 0 24px;
+        }
+
         /* Spec table (matches bench-table / comp-table styling) */
         .spec-table {
             width: 100%;
@@ -4020,14 +4005,25 @@
             border: 1px solid var(--border);
         }
 
+        .evidence-item p {
+            margin: 0;
+            font-size: 13.5px;
+            line-height: 1.6;
+            color: var(--ink-2);
+        }
+
+        .evidence-item p + p {
+            margin-top: 8px;
+        }
+
         .evidence-secondary {
             background: var(--foam);
-            border-left: 4px solid var(--leaf);
+            border-color: var(--mint);
         }
 
         .evidence-primary {
             background: var(--coral-light);
-            border-left: 4px solid var(--coral);
+            border-color: var(--coral-mid);
         }
 
         .evidence-tag {
@@ -4207,22 +4203,25 @@
         }
 
         .rejected-card {
-            background: var(--white);
+            background: var(--off);
             border: 1px solid var(--border);
-            border-left: 4px solid var(--ink-4);
             border-radius: var(--r);
             padding: 22px 24px;
-            box-shadow: var(--shadow);
         }
 
         .rejected-tag {
+            display: inline-block;
             font-family: var(--display);
             font-size: 10.5px;
             font-weight: 700;
             letter-spacing: 0.12em;
             text-transform: uppercase;
             color: var(--ink-4);
-            margin-bottom: 8px;
+            background: var(--white);
+            border: 1px solid var(--border);
+            padding: 4px 10px;
+            border-radius: 99px;
+            margin-bottom: 12px;
         }
 
         .rejected-card h5 {
@@ -5353,7 +5352,7 @@
                             private-label option that costs 60% less.</li>
                     </ul>
                 </div>
-                <p style="margin-top: 24px; font-size: 0.95rem; line-height: 1.65; color: var(--ink);">This positioning is deliberately less "edgy" than Alpro's current "Joyfully Healthy" wording, but the professor's feedback confirmed our earlier instinct. The brand's biggest weakness is not that it isn't differentiated enough. It's that the differentiation doesn't translate clearly at the shelf or in a thirty-second conversation. Simpler positioning wins the moment of purchase.</p>
+                <p class="hybrid-closing">This positioning is deliberately less "edgy" than Alpro's current "Joyfully Healthy" wording, but the professor's feedback confirmed our earlier instinct. The brand's biggest weakness is not that it isn't differentiated enough. It's that the differentiation doesn't translate clearly at the shelf or in a thirty-second conversation. Simpler positioning wins the moment of purchase.</p>
             </section>
         </div>
         <div id="perceptual-map">
@@ -5737,22 +5736,21 @@
                         </div>
                         <div class="meansend-chain-foot">Archetype: Loyal Convert, Persuadable Skeptic</div>
                     </article>
-                    <article class="meansend-chain" style="border-color: var(--blue);">
-                        <div class="meansend-chain-head" style="color: var(--blue);">Chain 2, The Digestive Health Path
-                        </div>
-                        <div class="meansend-chain-tag" style="color: var(--blue);">Health-trigger driver</div>
-                        <div class="meansend-step" style="border-color: var(--blue);">
-                            <div class="meansend-step-label" style="color: var(--blue);">Attribute</div>
+                    <article class="meansend-chain is-blue">
+                        <div class="meansend-chain-head">Chain 2, The Digestive Health Path</div>
+                        <div class="meansend-chain-tag">Health-trigger driver</div>
+                        <div class="meansend-step">
+                            <div class="meansend-step-label">Attribute</div>
                             <div class="meansend-step-text">"Lactose-free, plant-based, easy to digest"</div>
                         </div>
-                        <div class="meansend-arrow" style="color: var(--blue);">↑</div>
-                        <div class="meansend-step" style="border-color: var(--blue);">
-                            <div class="meansend-step-label" style="color: var(--blue);">Functional benefit</div>
+                        <div class="meansend-arrow">↑</div>
+                        <div class="meansend-step">
+                            <div class="meansend-step-label">Functional benefit</div>
                             <div class="meansend-step-text">"No bloating, feel lighter, gut comfort"</div>
                         </div>
-                        <div class="meansend-arrow" style="color: var(--blue);">↑</div>
-                        <div class="meansend-step" style="border-color: var(--blue);">
-                            <div class="meansend-step-label" style="color: var(--blue);">Personal value</div>
+                        <div class="meansend-arrow">↑</div>
+                        <div class="meansend-step">
+                            <div class="meansend-step-label">Personal value</div>
                             <div class="meansend-step-text">"I feel in control of my body"</div>
                         </div>
                         <div class="meansend-chain-foot">Archetype: Lactose-Driven Switcher, Diet-Driven Pragmatist
@@ -8169,7 +8167,7 @@
 
                 <div class="evidence-block" style="margin-top: 24px;">
                     <h4>The starting point: Alpro's current Spanish plant-based yoghurt business</h4>
-                    <p style="margin: 0 0 12px 0; font-size: 0.9rem; color: var(--ink-muted);">Source: Kantar Worldpanel FY 2025.</p>
+                    <p style="margin: 0 0 12px 0; font-size: 0.9rem; color: var(--ink-3);">Source: Kantar Worldpanel FY 2025.</p>
                     <ul style="margin: 0; padding-left: 20px; line-height: 1.7;">
                         <li>Total value: <strong>€82.4M</strong> (growing 34.7% year-on-year)</li>
                         <li>Volume sold: <strong>14.7 thousand tonnes</strong></li>
@@ -8356,7 +8354,7 @@
                             </tbody>
                         </table>
 
-                        <p style="margin-top: 8px; font-size: 14.5px; line-height: 1.65; color: var(--ink-3);">
+                        <p style="margin-top: 8px;">
                             A 15-point recall lift is ambitious but realistic. Alpro currently competes in a
                             category where the brand is known but rarely seen. The under-35 Catalan consumer is
                             highly engaged with cultural content but skeptical of traditional advertising. Our
@@ -8382,10 +8380,10 @@
                     </header>
 
                     <div class="innovation-body">
-                        <h4 style="font-family: var(--display); font-weight: 800; font-size: 18px; color: var(--ink); margin: 8px 0 12px; letter-spacing: -0.01em;">
+                        <h4>
                             Why this idea
                         </h4>
-                        <p style="font-size: 14.5px; line-height: 1.65; color: var(--ink-3); margin: 0 0 24px;">
+                        <p>
                             Most plant-based marketing falls into one of two traps. Either it preaches (saving
                             the planet, animal welfare, your inner discipline), or it apologises (it's almost as
                             good as dairy, we promise). Neither matches how Catalan under-35s actually relate to
@@ -8397,13 +8395,13 @@
                             "Purposefully Imperfect" brand pillars without diluting them.
                         </p>
 
-                        <h4 style="font-family: var(--display); font-weight: 800; font-size: 18px; color: var(--ink); margin: 8px 0 12px; letter-spacing: -0.01em;">
+                        <h4>
                             How it shows up across the two innovations
                         </h4>
                         <div class="evidence-grid">
                             <div class="evidence-item evidence-secondary">
                                 <div class="evidence-tag">ALPRO SKYR +PROTEIN 1KG</div>
-                                <p style="margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--ink-2);">
+                                <p>
                                     The 1 kg pot becomes the "sin drama protein" answer to overcomplicated
                                     fitness nutrition. The hero film shows real people at home: post-gym,
                                     breakfast with family, Sunday meal prep using the big pot in their actual
@@ -8413,7 +8411,7 @@
                             </div>
                             <div class="evidence-item evidence-primary">
                                 <div class="evidence-tag">FROZEN YOGHURT</div>
-                                <p style="margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--ink-2);">
+                                <p>
                                     The frozen yoghurt becomes the "sin drama indulgence". A group of friends
                                     sharing a tub at a Barcelona park sunset. A single tub in someone's freezer
                                     next to a half-eaten pizza. The opposite of diet-culture ice cream
@@ -8422,12 +8420,12 @@
                             </div>
                         </div>
 
-                        <h4 style="font-family: var(--display); font-weight: 800; font-size: 18px; color: var(--ink); margin: 28px 0 12px; letter-spacing: -0.01em;">
+                        <h4 style="margin-top: 28px;">
                             Why it lands
                         </h4>
                         <div class="evidence-item evidence-primary" style="margin-top: 0;">
                             <div class="evidence-tag">FROM OUR INTERVIEWS</div>
-                            <p style="margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--ink-2);">
+                            <p>
                                 Multiple interviewees told us they're tired of being marketed to as either
                                 "vegans" or "wellness people". Mariana said she identifies as the perfect Alpro
                                 customer, but the brand never speaks her language. David said current
@@ -8445,23 +8443,23 @@
                 <div class="evidence-grid" style="margin-top: 16px;">
                     <div class="evidence-item evidence-primary">
                         <div class="evidence-tag">MAYA · NON-BUYER · AGE 23</div>
-                        <p style="margin: 0 0 8px 0; font-size: 13.5px; line-height: 1.6; color: var(--ink-2);"><em>"Fun ads! I've never seen an Alpro ad or had any online touchpoints with them. If there was a fun ad explaining the health benefits, I might actually opt to buy it."</em></p>
-                        <p style="margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--ink-2);">The clearest brief for the campaign we could have asked for. The job is awareness with personality.</p>
+                        <p><em>"Fun ads! I've never seen an Alpro ad or had any online touchpoints with them. If there was a fun ad explaining the health benefits, I might actually opt to buy it."</em></p>
+                        <p>The clearest brief for the campaign we could have asked for. The job is awareness with personality.</p>
                     </div>
                     <div class="evidence-item evidence-primary">
                         <div class="evidence-tag">DAVID · OCCASIONAL BUYER · AGE 40s</div>
-                        <p style="margin: 0 0 8px 0; font-size: 13.5px; line-height: 1.6; color: var(--ink-2);"><em>"I discover products in the supermarket. My wife (lactose intolerant) influences my choices."</em></p>
-                        <p style="margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--ink-2);">Decision often happens at the shelf, and the buyer is not always the user. In-store visibility and partner influence matter as much as broad reach.</p>
+                        <p><em>"I discover products in the supermarket. My wife (lactose intolerant) influences my choices."</em></p>
+                        <p>Decision often happens at the shelf, and the buyer is not always the user. In-store visibility and partner influence matter as much as broad reach.</p>
                     </div>
                     <div class="evidence-item evidence-primary">
                         <div class="evidence-tag">ISABELLA · PRICE-SENSITIVE FLEXITARIAN · AGE 20</div>
-                        <p style="margin: 0 0 8px 0; font-size: 13.5px; line-height: 1.6; color: var(--ink-2);"><em>"I often don't even look at the plant-based option because I know it's more expensive."</em></p>
-                        <p style="margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--ink-2);">The under-35 needs a reason to look. Cultural relevance and visible presence in their world breaks the avoidance pattern.</p>
+                        <p><em>"I often don't even look at the plant-based option because I know it's more expensive."</em></p>
+                        <p>The under-35 needs a reason to look. Cultural relevance and visible presence in their world breaks the avoidance pattern.</p>
                     </div>
                     <div class="evidence-item evidence-primary">
                         <div class="evidence-tag">MARIANA · COMMITTED VEGAN · AGE 19</div>
-                        <p style="margin: 0 0 8px 0; font-size: 13.5px; line-height: 1.6; color: var(--ink-2);"><em>"It's easy now because of brands like Alpro. I don't judge others; I live with a carnivore. I'm not an activist trying to force people to change."</em></p>
-                        <p style="margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--ink-2);">The "sin drama" tone is exactly what existing loyal buyers want too. Preachy plant-based marketing alienates even the converted.</p>
+                        <p><em>"It's easy now because of brands like Alpro. I don't judge others; I live with a carnivore. I'm not an activist trying to force people to change."</em></p>
+                        <p>The "sin drama" tone is exactly what existing loyal buyers want too. Preachy plant-based marketing alienates even the converted.</p>
                     </div>
                 </div>
 
@@ -8943,10 +8941,10 @@
                     </header>
 
                     <div class="innovation-body">
-                        <h4 style="font-family: var(--display); font-weight: 800; font-size: 18px; color: var(--ink); margin: 8px 0 12px; letter-spacing: -0.01em;">
+                        <h4>
                             What it looks like
                         </h4>
-                        <p style="font-size: 14.5px; line-height: 1.65; color: var(--ink-3); margin: 0 0 24px;">
+                        <p>
                             Alpro takes over a small kiosk space. The whole place looks like a Catalan summer
                             fever-dream: yellow umbrellas, terrazzo tables, a soundtrack from the Alpro brand
                             world Spotify playlist. Frozen yoghurt is served in real coconut shells (the hero
@@ -8956,12 +8954,12 @@
                             the rest of the year.
                         </p>
 
-                        <h4 style="font-family: var(--display); font-weight: 800; font-size: 18px; color: var(--ink); margin: 8px 0 12px; letter-spacing: -0.01em;">
+                        <h4>
                             Why this specific activation matters
                         </h4>
                         <div class="evidence-item evidence-primary" style="margin-top: 0;">
                             <div class="evidence-tag">THE COMMERCIAL CASE</div>
-                            <p style="margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--ink-2);">
+                            <p>
                                 One physical place that captures everything: the product, the brand world, the
                                 cultural register, and the local credibility. It generates earned media (press
                                 will cover it), social content (the coconut shells alone will end up on
@@ -8981,23 +8979,23 @@
                 <div class="evidence-grid" style="margin-top: 16px;">
                     <div class="evidence-item evidence-primary">
                         <div class="evidence-tag">DAVID</div>
-                        <p style="margin: 0 0 8px 0; font-size: 13.5px; line-height: 1.6; color: var(--ink-2);"><em>"I discover products in the supermarket. I look at packaging first."</em></p>
-                        <p style="margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--ink-2);">Confirms supermarket placement and packaging are the most decisive single touchpoint for occasional buyers. This is why end-of-aisle displays and branded fridges are our biggest in-store investment.</p>
+                        <p><em>"I discover products in the supermarket. I look at packaging first."</em></p>
+                        <p>Confirms supermarket placement and packaging are the most decisive single touchpoint for occasional buyers. This is why end-of-aisle displays and branded fridges are our biggest in-store investment.</p>
                     </div>
                     <div class="evidence-item evidence-primary">
                         <div class="evidence-tag">MAYA</div>
-                        <p style="margin: 0 0 8px 0; font-size: 13.5px; line-height: 1.6; color: var(--ink-2);"><em>"I'd probably only look at the ingredients once I got home. Brand first, then price."</em></p>
-                        <p style="margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--ink-2);">Tells us shelf prominence and brand visibility at the moment of decision matter more than nutrition labelling. This shapes the visual design of our retail displays.</p>
+                        <p><em>"I'd probably only look at the ingredients once I got home. Brand first, then price."</em></p>
+                        <p>Tells us shelf prominence and brand visibility at the moment of decision matter more than nutrition labelling. This shapes the visual design of our retail displays.</p>
                     </div>
                     <div class="evidence-item evidence-primary">
                         <div class="evidence-tag">ISABELLA</div>
-                        <p style="margin: 0 0 8px 0; font-size: 13.5px; line-height: 1.6; color: var(--ink-2);"><em>"I'd pay more for a specialty Alpro product like ice cream."</em></p>
-                        <p style="margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--ink-2);">Direct stated purchase intent for the frozen yoghurt in a non-yoghurt-aisle channel. This is why the frozen aisle in El Corte Inglés and Veritas, plus the away-from-home channels (cinemas, gyms, summer events), are the priority for the frozen yoghurt launch.</p>
+                        <p><em>"I'd pay more for a specialty Alpro product like ice cream."</em></p>
+                        <p>Direct stated purchase intent for the frozen yoghurt in a non-yoghurt-aisle channel. This is why the frozen aisle in El Corte Inglés and Veritas, plus the away-from-home channels (cinemas, gyms, summer events), are the priority for the frozen yoghurt launch.</p>
                     </div>
                     <div class="evidence-item evidence-primary">
                         <div class="evidence-tag">MARIANA</div>
-                        <p style="margin: 0 0 8px 0; font-size: 13.5px; line-height: 1.6; color: var(--ink-2);"><em>"For yogurt, the Mercadona plant-based version is bad, so the taste of Alpro justifies paying more."</em></p>
-                        <p style="margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--ink-2);">Confirms that even with Hacendado at lower prices, the premium positioning works in the right retail context. This is why we deferred Mercadona at launch and prioritise Carrefour, El Corte Inglés, and Veritas.</p>
+                        <p><em>"For yogurt, the Mercadona plant-based version is bad, so the taste of Alpro justifies paying more."</em></p>
+                        <p>Confirms that even with Hacendado at lower prices, the premium positioning works in the right retail context. This is why we deferred Mercadona at launch and prioritise Carrefour, El Corte Inglés, and Veritas.</p>
                     </div>
                 </div>
 
@@ -9412,7 +9410,7 @@
                 });
 
                 // Stagger children of grids
-                document.querySelectorAll('.facts-grid, .tensions-grid, .target-grid, .pos-grid, .pestel-grid, .hybrid-grid, .archetype-grid, .chart-grid, .ladder-grid, .journey-grid').forEach(grid => {
+                document.querySelectorAll('.facts-grid, .tensions, .targets, .pos-grid, .pestel-grid, .archetypes-grid, .chart-row, .ladder, .journey').forEach(grid => {
                     grid.classList.add('reveal-stagger');
                     io.observe(grid);
                 });
@@ -10796,6 +10794,66 @@
                 return inner;
             }
 
+            // ── Label / lid override textures ─────────────────────────
+            // The GLBs ship with baked textures; these PNGs let us refresh
+            // the printed artwork without re-exporting the models. We match
+            // wrap vs. lid by aspect ratio of the existing material.map.
+            const texLoader = new THREE.TextureLoader();
+            const maxAniso = renderer.capabilities.getMaxAnisotropy?.() ?? 4;
+            function loadOverrideTex(path) {
+                return new Promise((resolve) => {
+                    texLoader.load(
+                        encodeURI(path),
+                        (tex) => {
+                            tex.colorSpace = THREE.SRGBColorSpace;
+                            tex.flipY = false; // GLB UV convention
+                            tex.anisotropy = maxAniso;
+                            resolve(tex);
+                        },
+                        undefined,
+                        () => resolve(null)
+                    );
+                });
+            }
+            function applyArtwork(root, labelTex, lidTex) {
+                if (!root || (!labelTex && !lidTex)) return;
+                root.traverse((obj) => {
+                    if (!obj.isMesh || !obj.material) return;
+                    const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
+                    mats.forEach((mat) => {
+                        const img = mat.map && mat.map.image;
+                        const w = img && (img.width || img.naturalWidth) || 0;
+                        const h = img && (img.height || img.naturalHeight) || 0;
+                        if (!w || !h) return;
+                        const aspect = w / h;
+                        const next = aspect > 1.5 ? labelTex
+                                   : (aspect >= 0.85 && aspect <= 1.15 ? lidTex : null);
+                        if (!next) return;
+                        const prev = mat.map;
+                        next.wrapS = prev.wrapS; next.wrapT = prev.wrapT;
+                        next.offset.copy(prev.offset);
+                        next.repeat.copy(prev.repeat);
+                        mat.map = next;
+                        mat.needsUpdate = true;
+                    });
+                });
+            }
+
+            let skyrLabelTex = null, skyrLidTex = null;
+            let frozenLabelTex = null, frozenLidTex = null;
+            loadOverrideTex('models/skyr label.png').then((t) => {
+                skyrLabelTex = t; applyArtwork(skyrInner, skyrLabelTex, skyrLidTex);
+            });
+            loadOverrideTex('models/skyr lid.png').then((t) => {
+                skyrLidTex = t; applyArtwork(skyrInner, skyrLabelTex, skyrLidTex);
+            });
+            loadOverrideTex('models/frozen label.png').then((t) => {
+                frozenLabelTex = t; applyArtwork(frozenInner, frozenLabelTex, frozenLidTex);
+            });
+            loadOverrideTex('models/frozen lide.png').then((t) => {
+                frozenLidTex = t; applyArtwork(frozenInner, frozenLabelTex, frozenLidTex);
+            });
+
             // ── Load models ───────────────────────────────────────────
             const loader = new GLTFLoader();
             let skyrInner = null, frozenInner = null;
@@ -10804,6 +10862,7 @@
                 'models/alpro_skyr_yoghurt_protein_natural_500ml_clean_fixed.glb',
                 (gltf) => {
                     skyrInner = fitAndCentre(gltf.scene, 1.65, Math.PI / 2);
+                    applyArtwork(skyrInner, skyrLabelTex, skyrLidTex);
                     skyrGroup.add(skyrInner);
                     skyrGroup.add(makeShadow(1.05));
                 },
@@ -10814,6 +10873,7 @@
                 'models/alpro_frozen_yoghurt_500ml_clean_fixed.glb',
                 (gltf) => {
                     frozenInner = fitAndCentre(gltf.scene, 1.65, Math.PI / 2);
+                    applyArtwork(frozenInner, frozenLabelTex, frozenLidTex);
                     frozenGroup.add(frozenInner);
                     frozenGroup.add(makeShadow(1.0));
                 },
