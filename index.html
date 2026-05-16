@@ -11024,16 +11024,16 @@
 
             let skyrLabelTex = null, skyrLidTex = null;
             let frozenLabelTex = null, frozenLidTex = null;
-            loadOverrideTex('models/skyr label.png').then((t) => {
+            loadOverrideTex('models/skyr label.png?v=20260516').then((t) => {
                 skyrLabelTex = t; applyArtwork(skyrInner, skyrLabelTex, skyrLidTex);
             });
-            loadOverrideTex('models/skyr lid.png').then((t) => {
+            loadOverrideTex('models/skyr lid.png?v=20260516').then((t) => {
                 skyrLidTex = t; applyArtwork(skyrInner, skyrLabelTex, skyrLidTex);
             });
-            loadOverrideTex('models/frozen label.png').then((t) => {
+            loadOverrideTex('models/frozen label.png?v=20260516').then((t) => {
                 frozenLabelTex = t; applyArtwork(frozenInner, frozenLabelTex, frozenLidTex);
             });
-            loadOverrideTex('models/frozen lide.png').then((t) => {
+            loadOverrideTex('models/frozen lide.png?v=20260516').then((t) => {
                 frozenLidTex = t; applyArtwork(frozenInner, frozenLabelTex, frozenLidTex);
             });
 
@@ -11210,10 +11210,10 @@
                 });
             }
             const [skyrLabelTex, skyrLidTex, frozenLabelTex, frozenLidTex] = await Promise.all([
-                loadTex('models/skyr label.png'),
-                loadTex('models/skyr lid.png'),
-                loadTex('models/frozen label.png'),
-                loadTex('models/frozen lide.png'),
+                loadTex('models/skyr label.png?v=20260516'),
+                loadTex('models/skyr lid.png?v=20260516'),
+                loadTex('models/frozen label.png?v=20260516'),
+                loadTex('models/frozen lide.png?v=20260516'),
             ]);
 
             function applyArtwork(root, labelTex, lidTex) {
