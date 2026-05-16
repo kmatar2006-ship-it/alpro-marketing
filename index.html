@@ -11002,20 +11002,19 @@
                 if (!root || (!labelTex && !lidTex)) return;
                 root.traverse((obj) => {
                     if (!obj.isMesh || !obj.material) return;
+                    const name = (obj.name || '').toLowerCase();
+                    const isBody = name.includes('body_label') || name.includes('wrapped_body');
+                    const isLid = name.includes('lid_artwork') || name.includes('lid_disc');
+                    const next = isBody ? labelTex : (isLid ? lidTex : null);
+                    if (!next) return;
                     const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
                     mats.forEach((mat) => {
-                        const img = mat.map && mat.map.image;
-                        const w = img && (img.width || img.naturalWidth) || 0;
-                        const h = img && (img.height || img.naturalHeight) || 0;
-                        if (!w || !h) return;
-                        const aspect = w / h;
-                        const next = aspect > 1.5 ? labelTex
-                                   : (aspect >= 0.85 && aspect <= 1.15 ? lidTex : null);
-                        if (!next) return;
                         const prev = mat.map;
-                        next.wrapS = prev.wrapS; next.wrapT = prev.wrapT;
-                        next.offset.copy(prev.offset);
-                        next.repeat.copy(prev.repeat);
+                        if (prev) {
+                            next.wrapS = prev.wrapS; next.wrapT = prev.wrapT;
+                            next.offset.copy(prev.offset);
+                            next.repeat.copy(prev.repeat);
+                        }
                         mat.map = next;
                         mat.needsUpdate = true;
                     });
@@ -11220,20 +11219,19 @@
                 if (!root || (!labelTex && !lidTex)) return;
                 root.traverse((obj) => {
                     if (!obj.isMesh || !obj.material) return;
+                    const name = (obj.name || '').toLowerCase();
+                    const isBody = name.includes('body_label') || name.includes('wrapped_body');
+                    const isLid = name.includes('lid_artwork') || name.includes('lid_disc');
+                    const next = isBody ? labelTex : (isLid ? lidTex : null);
+                    if (!next) return;
                     const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
                     mats.forEach((mat) => {
-                        const img = mat.map && mat.map.image;
-                        const w = img && (img.width || img.naturalWidth) || 0;
-                        const h = img && (img.height || img.naturalHeight) || 0;
-                        if (!w || !h) return;
-                        const aspect = w / h;
-                        const next = aspect > 1.5 ? labelTex
-                                   : (aspect >= 0.85 && aspect <= 1.15 ? lidTex : null);
-                        if (!next) return;
                         const prev = mat.map;
-                        next.wrapS = prev.wrapS; next.wrapT = prev.wrapT;
-                        next.offset.copy(prev.offset);
-                        next.repeat.copy(prev.repeat);
+                        if (prev) {
+                            next.wrapS = prev.wrapS; next.wrapT = prev.wrapT;
+                            next.offset.copy(prev.offset);
+                            next.repeat.copy(prev.repeat);
+                        }
                         mat.map = next;
                         mat.needsUpdate = true;
                     });
